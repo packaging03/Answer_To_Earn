@@ -49,7 +49,7 @@ describe('Contracts', () => {
       const updatedTitle = 'This title has been updated'
 
       await expectRevert(
-        contract.connect(commentor1).updateQuestion(id, updatedTitle, description, tags),
+        contract.connect(commentor1).updateQuestion(id, updatedTitle, description, tags), //this is how you use a different account(commentor1) to test SC
         'Unauthorized entity!'
       )
 
