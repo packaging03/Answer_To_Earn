@@ -3,8 +3,13 @@ import logo from '@/assets/images/Union.png'
 import { AiOutlineSearch } from 'react-icons/ai'
 import React from 'react'
 import Link from 'next/link'
+import { useSelector } from 'react-redux'
+import { RootState } from '@/utils/interfaces'
+import { connectWallet } from '@/services/blockChain'
 
 const Header: React.FC = () => {
+  const { wallet } = useSelector((states: RootState) => states.globalStates)
+
   return (
     <header
       className="border-b border-[#212D4A] h-[80px] w-full flex
@@ -30,12 +35,22 @@ const Header: React.FC = () => {
         />
       </div>
 
-      <button
-        className="text-sm bg-blue-600 rounded-full w-[150px] h-[48px] text-white
+      {wallet ? (
+        <button
+          className="text-sm bg-blue-600 rounded-full w-[150px] h-[48px] text-white
         right-2 sm:right-10 hover:bg-blue-700  transition-colors duration-300"
-      >
-        Connect wallet
-      </button>
+        >
+          {wallet}
+        </button>
+      ) : (
+        <button
+          onClick={connectWallet}
+          className="text-sm bg-blue-600 rounded-full w-[150px] h-[48px] text-white
+        right-2 sm:right-10 hover:bg-blue-700  transition-colors duration-300"
+        >
+          Connect wallet
+        </button>
+      )}
     </header>
   )
 }

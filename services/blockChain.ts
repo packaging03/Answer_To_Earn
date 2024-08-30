@@ -21,7 +21,7 @@ const fromWei = (num: number) => ethers.utils.formatEther(num)
 const connectWallet = async () => {
   try {
     if (!ethereum) return reportError('Please install Metamask')
-    const accounts = await ethereum.request?.({ method: 'eth_requestAccounnts' })
+    const accounts = await ethereum.request?.({ method: 'eth_requestAccounts' })
     store.dispatch(setWallet(accounts?.[0]))
   } catch (error) {}
 }

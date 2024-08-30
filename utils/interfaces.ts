@@ -36,5 +36,8 @@ export interface QuestionProp {
 
 export interface GlobalState {
   wallet: string| null
-  
+}
+
+export interface RootState {
+  globalStates: GlobalState
 }
