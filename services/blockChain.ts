@@ -18,6 +18,18 @@ if (typeof window !== 'undefined') {
 const toWei = (num: number) => ethers.utils.parseEther(num.toString())
 const fromWei = (num: number) => ethers.utils.formatEther(num)
 
+const getEthereumContract = async () => {
+  const accounts = await ethereum?.request?.({ method: 'eth_accounts' })
+  const provider = accounts?.[0]
+    ? new ethers.providers.Web3Provider(ethereum) // metamask
+    : new ethers.providers.JsonRpcProvider(process.env.NEXT_APP_RPC_URL) // JsonRpcProvider
+  const wallet = accounts?.[0] ? null : ethers.Wallet.createRandom()
+  const signer = provider.getSigner(accounts?.[0] ? undefined : wallet?.address)
+
+  const contract = new ethers.Contract(ContractAddress, ContractAbi, signer)
+  return contract
+}
+
 const connectWallet = async () => {
   try {
     if (!ethereum) return reportError('Please install Metamask')
@@ -54,8 +66,41 @@ const checkWallet = async () => {
   }
 }
 
+const getQuestions = async (): Promise<QuestionProp[]> => {
+  const contract = await getEthereumContract()
+  const questions = await contract.getQuestions()
+  return structureQuestions(questions)
+}
+
+const getQuestion = async (id: number): Promise<QuestionProp> => {
+  const contract = await getEthereumContract()
+  const question = await contract.getQuestion(id)
+  return structureQuestions([question])[0]
+}
+
+
+
 const reportError = (error: any) => {
   console.error(error)
 }
 
-export { connectWallet, checkWallet }
+const structureQuestions = (questions: any[]): QuestionProp[] =>
+  questions.map((question) => ({
+      id: Number(question.id),
+      title: question.title,
+      description: question.description,
+      owner: question.owner.toLowerCase(),
+      winner: question.winner.toLowerCase(),
+      paidout: question.paidout,
+      deleted: question.deleted,
+      updated: Number(question.updated),
+      created: Number(question.created),
+      answers: Number(question.answers),
+      tags: question.tags.split(',').map((tag: string) => tag.trim()),
+      prize: Number(fromWei(question.prize)),
+    }))
+    .sort((a, b) => b.created - a.created)
+  
+  
+
+export { connectWallet, checkWallet, getQuestions }
