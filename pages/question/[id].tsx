@@ -14,6 +14,7 @@ import { getQuestion } from '@/services/blockChain'
 import { GetServerSidePropsContext } from 'next'
 import { globalActions } from '@/store/globalSlices'
 import { useDispatch, useSelector } from 'react-redux'
+import UpdateQuestion from '@/components/UpdateQuestion'
 
 export default function Question({
   questionData,
@@ -77,10 +78,10 @@ export default function Question({
               <p className="text-[#BBBBBB]">Be the first one to drop an answer.</p>
             </div>
           )}
-
-          <AddComment />
         </div>
       </main>
+      <AddComment />
+      <UpdateQuestion questionData={question}/>
     </div>
   )
 }

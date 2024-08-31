@@ -38,6 +38,7 @@ export interface GlobalState {
   questions: QuestionProp[]
   question: QuestionProp | null
   addQuestionModal: string
+  updateQuestionModal: string
 }
 
 export interface RootState {

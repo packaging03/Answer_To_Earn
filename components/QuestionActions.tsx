@@ -8,10 +8,9 @@ import { globalActions } from '@/store/globalSlices'
 
 const QuestionAction: React.FC = () => {
   const dispatch = useDispatch()
-  // const { setQuestionUpdateModal, setQuestionDeleteModal } = globalActions
+  const { setUpdateQuestionModal } = globalActions
 
   return (
-    
     <Menu as="div" className="inline-block text-left text-[#BBBBBB]">
       <Menu.Button
         className="inline-flex w-full justify-center
@@ -22,7 +21,7 @@ const QuestionAction: React.FC = () => {
       >
         <BiDotsVerticalRounded size={17} />
       </Menu.Button>
-      
+
       <Menu.Items
         className="absolute right-0 mr-2 mt-2 w-56 origin-top-right
           divide-y divide-[#BBBBBB] rounded-md bg-[#16112E] shadow-md 
@@ -34,7 +33,7 @@ const QuestionAction: React.FC = () => {
               className={`flex justify-start items-center space-x-1 ${
                 active ? 'bg-[#0D0B15] text-[#BBBBBB]' : 'text-[#BBBBBB]'
               } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
-              // onClick={() => dispatch(setQuestionUpdateModal('scale-100'))}
+              onClick={() => dispatch(setUpdateQuestionModal('scale-100'))}
             >
               <FiEdit size={17} />
               <span>Edit</span>
