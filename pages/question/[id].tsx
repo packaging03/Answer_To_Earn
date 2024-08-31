@@ -1,10 +1,10 @@
 import Head from 'next/head'
 import { MdOutlineArrowBackIosNew } from 'react-icons/md'
 import Header from '@/components/Header'
-import React from 'react'
+import React, { useEffect } from 'react'
 import Details from '@/components/Details'
-import { generateAnswers, generateQuestions } from '@/utils/helper'
-import { AnswerProp, QuestionProp } from '@/utils/interfaces'
+import { generateAnswers } from '@/utils/helper'
+import { AnswerProp, QuestionProp, RootState } from '@/utils/interfaces'
 import Link from 'next/link'
 import Answers from '@/components/Answers'
 import { BiNetworkChart } from 'react-icons/bi'
@@ -12,14 +12,24 @@ import { BsFillTrophyFill } from 'react-icons/bs'
 import AddComment from '@/components/AddComment'
 import { getQuestion } from '@/services/blockChain'
 import { GetServerSidePropsContext } from 'next'
+import { globalActions } from '@/store/globalSlices'
+import { useDispatch, useSelector } from 'react-redux'
 
 export default function Question({
-  question,
+  questionData,
   answers,
 }: {
-  question: QuestionProp
+  questionData: QuestionProp
   answers: AnswerProp[]
 }) {
+  const dispatch = useDispatch()
+  const { setQuestion } = globalActions
+  const { question } = useSelector((states: RootState) => states.globalStates)
+
+  useEffect(() => {
+    dispatch(setQuestion(questionData))
+  }, [dispatch, questionData, setQuestion])
+
   return (
     <div>
       <Head>
@@ -82,7 +92,7 @@ export const getServerSideProps = async (context: GetServerSidePropsContext) => 
 
   return {
     props: {
-      question: JSON.parse(JSON.stringify(questionData)),
+      questionData: JSON.parse(JSON.stringify(questionData)),
       answers: JSON.parse(JSON.stringify(answersData)),
     },
   }
