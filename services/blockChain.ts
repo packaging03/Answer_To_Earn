@@ -103,4 +103,4 @@ const structureQuestions = (questions: any[]): QuestionProp[] =>
   
   
 
-export { connectWallet, checkWallet, getQuestions }
+export { connectWallet, checkWallet, getQuestions, getQuestion }

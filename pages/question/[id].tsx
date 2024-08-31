@@ -10,6 +10,8 @@ import Answers from '@/components/Answers'
 import { BiNetworkChart } from 'react-icons/bi'
 import { BsFillTrophyFill } from 'react-icons/bs'
 import AddComment from '@/components/AddComment'
+import { getQuestion } from '@/services/blockChain'
+import { GetServerSidePropsContext } from 'next'
 
 export default function Question({
   question,
@@ -73,13 +75,14 @@ export default function Question({
   )
 }
 
-export const getServerSideProps = async () => {
-  const questionData = generateQuestions(1)
+export const getServerSideProps = async (context: GetServerSidePropsContext) => {
+  const { id } = context.query
+  const questionData = await getQuestion(Number(id)) // generateQuestions(1)
   const answersData = generateAnswers(4)
 
   return {
     props: {
-      question: JSON.parse(JSON.stringify(questionData[0])),
+      question: JSON.parse(JSON.stringify(questionData)),
       answers: JSON.parse(JSON.stringify(answersData)),
     },
   }
