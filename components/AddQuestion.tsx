@@ -35,8 +35,6 @@ const AddQuestion: React.FC = () => {
     })
   }
 
-
-
   return (
     <div
       className={`fixed top-0 left-0 w-screen h-screen flex items-center justify-center
@@ -61,6 +59,7 @@ const AddQuestion: React.FC = () => {
                 placeholder="Question title"
                 className="bg-transparent outline-none w-full placeholder-[#3D3857] text-sm"
                 required
+                name="title"
                 value={question.title}
                 onChange={handleChange}
               />
@@ -72,6 +71,7 @@ const AddQuestion: React.FC = () => {
                 min={0.01}
                 step={0.01}
                 required
+                name="prize"
                 value={question.prize !== null ? question.prize.toString() : ''}
                 onChange={handleChange}
                 placeholder="ETH e.g 0.02"
@@ -87,6 +87,7 @@ const AddQuestion: React.FC = () => {
                 placeholder="Separate tags with commas, eg. php, css"
                 className="bg-transparent outline-none w-full placeholder-[#3D3857] text-sm"
                 required
+                name="tags"
                 value={question.tags}
                 onChange={handleChange}
               />
@@ -100,6 +101,7 @@ const AddQuestion: React.FC = () => {
               focus:outline-none focus:ring-0 resize-none
               placeholder-[#3D3857] text-sm"
               required
+              name="description"
               value={question.description}
               onChange={handleChange}
             />
