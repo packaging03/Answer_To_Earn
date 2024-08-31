@@ -1,7 +1,8 @@
+import { QuestionProp } from '@/utils/interfaces'
 import React from 'react'
 import { BiNetworkChart } from 'react-icons/bi'
 
-const Banner: React.FC = () => {
+const Banner: React.FC<{ questions: QuestionProp[] }> = ({ questions }) => {
   return (
     <div className="w-full py-3 px-4 sm:px-10">
       <div className="mt-16 sm:mt-9 text-zinc-200">
@@ -15,7 +16,7 @@ const Banner: React.FC = () => {
         <div className="flex justify-between items-center font-bold text-sm h-[10vh]">
           <div className="flex space-x-2 items-center h-[24px] text-[#BBBBBB]">
             <BiNetworkChart className="text-[#212D4A] w-[24px] h-[24px]" />
-            <p>1 questions</p>
+            <p>{questions.length} questions</p>
           </div>
 
           <button
