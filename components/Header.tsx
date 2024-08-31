@@ -54,7 +54,7 @@ const Header: React.FC = () => {
         )}
       </header>
       <div
-        className="h-[48px] w-[601px] border border-[#212D4A]
+        className="h-[48px] w-[90%] border border-[#212D4A]
         rounded-full space-x-2 px-1 md:hidden flex items-center mx-auto"
       >
         <div className="bg-[#1B1631] rounded-full p-3">
