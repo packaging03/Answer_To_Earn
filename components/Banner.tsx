@@ -1,8 +1,13 @@
-import { QuestionProp } from '@/utils/interfaces'
+import { globalActions } from '@/store/globalSlices'
+import { QuestionProp, RootState } from '@/utils/interfaces'
 import React from 'react'
 import { BiNetworkChart } from 'react-icons/bi'
+import { useDispatch } from 'react-redux'
 
 const Banner: React.FC<{ questions: QuestionProp[] }> = ({ questions }) => {
+  const dispatch = useDispatch()
+  const { setAddQuestionModal } = globalActions
+
   return (
     <div className="w-full py-3 px-4 sm:px-10">
       <div className="mt-16 sm:mt-9 text-zinc-200">
@@ -20,6 +25,7 @@ const Banner: React.FC<{ questions: QuestionProp[] }> = ({ questions }) => {
           </div>
 
           <button
+            onClick={() => dispatch(setAddQuestionModal('scale-100'))}
             className="h-[48px] w-[145px] border rounded-full tracking-tighter
            border-blue-600 hover:text-blue-600 transition-colors duration-300"
           >

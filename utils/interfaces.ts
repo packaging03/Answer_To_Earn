@@ -36,9 +36,17 @@ export interface QuestionProp {
 export interface GlobalState {
   wallet: string | null
   questions: QuestionProp[]
-  question: QuestionProp|null
+  question: QuestionProp | null
+  addQuestionModal: string
 }
 
 export interface RootState {
   globalStates: GlobalState
+}
+
+export interface QuestionParams {
+  title: string
+  description: string
+  tags: string
+  prize: number | null
 }

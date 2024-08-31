@@ -5,4 +5,5 @@ export const globalStates: GlobalState =
     wallet: '',
     questions: [],
     question: null,
+    addQuestionModal: 'scale-0'
  }

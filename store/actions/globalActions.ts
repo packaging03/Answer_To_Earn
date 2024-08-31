@@ -11,4 +11,7 @@ export const globalActions = {
   setQuestion: (state: GlobalState, action: PayloadAction<QuestionProp>) => {
     state.question = action.payload
   },
+  setAddQuestionModal: (state: GlobalState, action: PayloadAction<string>) => {
+    state.addQuestionModal = action.payload
+  },
 }
