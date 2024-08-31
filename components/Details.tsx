@@ -6,18 +6,22 @@ import React from 'react'
 import { QuestionProp } from '@/utils/interfaces'
 import { truncate } from '@/utils/helper'
 import Moment from 'react-moment'
+import QuestionActions from './QuestionActions'
 
-const Details: React.FC<{ question: QuestionProp|null }> = ({ question }) => {
-  if(!question) return <p>Loading...</p>
+const Details: React.FC<{ question: QuestionProp | null }> = ({ question }) => {
+  if (!question) return <p>Loading...</p>
   return (
     <>
       <div className="flex flex-col mt-10 space-y-5">
-        <h4
-          className="inline-block from-blue-700 to-pink-700 leading-[30px]
+        <div className="flex justify-between items-center">
+          <h4
+            className="inline-block from-blue-700 to-pink-700 leading-[30px]
           bg-gradient-to-r bg-clip-text text-transparent text-[36.65px]"
-        >
-          {question.title}
-        </h4>
+          >
+            {question.title}
+          </h4>
+          <QuestionActions />
+        </div>
         <p className="text-[14px] leading-[21px] text-[#BBBBBB]">{question.description}</p>
 
         <div className="sm:hidden flex justify-start items-center space-x-2 text-[#56617B]">
