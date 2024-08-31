@@ -1,9 +1,11 @@
+import { createQuestion } from '@/services/blockChain'
 import { globalActions } from '@/store/globalSlices'
 import { QuestionParams, RootState } from '@/utils/interfaces'
 import { title } from 'process'
-import React, { ChangeEvent, useEffect, useState } from 'react'
+import React, { ChangeEvent, FormEvent, useEffect, useState } from 'react'
 import { FaTimes } from 'react-icons/fa'
 import { useDispatch, useSelector } from 'react-redux'
+import { toast } from 'react-toastify'
 
 const AddQuestion: React.FC = () => {
   const dispatch = useDispatch()
@@ -25,7 +27,7 @@ const AddQuestion: React.FC = () => {
     }))
   }
 
-  const closeModal = (e: any) => {
+  const closeModal = () => {
     dispatch(setAddQuestionModal('scale-0'))
     setQuestion({
       title: '',
@@ -33,6 +35,28 @@ const AddQuestion: React.FC = () => {
       tags: '',
       prize: null,
     })
+  }
+
+  const handleSubmit = async (e: FormEvent) => {
+    e.preventDefault()
+
+    if (!question.title || !question.prize || !question.tags || !question.description) return
+
+    await toast.promise(
+      new Promise<void>((resolve, reject) => {
+        createQuestion(question)
+          .then((tx) => {
+            closeModal()
+            resolve(tx)
+          })
+          .catch((error) => reject(error))
+      }),
+      {
+        pending: 'Approve transaction...',
+        success: 'Question created successfully 👌',
+        error: 'Encountered error 🤯',
+      }
+    )
   }
 
   return (
@@ -52,7 +76,10 @@ const AddQuestion: React.FC = () => {
               <FaTimes />
             </button>
           </div>
-          <form className="flex flex-col justify-center items-start rounded-xl mt-5 mb-5">
+          <form
+            onSubmit={handleSubmit}
+            className="flex flex-col justify-center items-start rounded-xl mt-5 mb-5"
+          >
             <label className="text-[12px]">Title</label>
             <div className="py-4 w-full border border-[#212D4A] rounded-full flex items-center px-4 mb-3 mt-2">
               <input
@@ -105,14 +132,14 @@ const AddQuestion: React.FC = () => {
               value={question.description}
               onChange={handleChange}
             />
+            <button
+              type="submit"
+              className="text-sm bg-blue-600 rounded-full w-[150px] h-[48px] text-white
+            right-2 sm:right-10 hover:bg-blue-700 transition-colors duration-300 mt-5"
+            >
+              Submit
+            </button>
           </form>
-
-          <button
-            className="text-sm bg-blue-600 rounded-full w-[150px] h-[48px] text-white
-            right-2 sm:right-10 hover:bg-blue-700 transition-colors duration-300"
-          >
-            Submit
-          </button>
         </div>
       </div>
     </div>
