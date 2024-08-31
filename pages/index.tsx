@@ -2,12 +2,23 @@ import Head from 'next/head'
 import Header from '@/components/Header'
 import Banner from '@/components/Banner'
 import Questions from '@/components/Questions'
-import { QuestionProp } from '@/utils/interfaces'
+import { QuestionProp, RootState } from '@/utils/interfaces'
 import Empty from '@/components/Empty'
 import AddQuestion from '@/components/AddQuestion'
 import { getQuestions } from '@/services/blockChain'
+import { useDispatch, useSelector } from 'react-redux'
+import { globalActions } from '@/store/globalSlices'
+import { useEffect } from 'react'
 
-export default function Home({ questions }: { questions: QuestionProp[] }) {
+export default function Home({ questionsData }: { questionsData: QuestionProp[] }) {
+  const dispatch = useDispatch()
+  const { setQuestions } = globalActions
+  const { questions } = useSelector((states: RootState) => states.globalStates)
+
+  useEffect(() => {
+    dispatch(setQuestions(questionsData))
+  }, [dispatch, questionsData, setQuestions])
+
   return (
     <div>
       <Head>
@@ -28,6 +39,6 @@ export default function Home({ questions }: { questions: QuestionProp[] }) {
 export const getServerSideProps = async () => {
   const data = await getQuestions()
   return {
-    props: { questions: JSON.parse(JSON.stringify(data)) },
+    props: { questionsData: JSON.parse(JSON.stringify(data)) },
   }
 }

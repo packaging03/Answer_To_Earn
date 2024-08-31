@@ -33,9 +33,10 @@ export interface QuestionProp {
   prize: number
 }
 
-
 export interface GlobalState {
-  wallet: string| null
+  wallet: string | null
+  questions: QuestionProp[]
+  question: QuestionProp|null
 }
 
 export interface RootState {
