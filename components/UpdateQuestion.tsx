@@ -1,7 +1,6 @@
-import { createQuestion } from '@/services/blockChain'
+import { updateQuestion } from '@/services/blockChain'
 import { globalActions } from '@/store/globalSlices'
 import { QuestionParams, QuestionProp, RootState } from '@/utils/interfaces'
-import { title } from 'process'
 import React, { ChangeEvent, FormEvent, useEffect, useState } from 'react'
 import { FaTimes } from 'react-icons/fa'
 import { useDispatch, useSelector } from 'react-redux'
@@ -40,11 +39,11 @@ const UpdateQuestion: React.FC<{ questionData: QuestionProp | null }> = ({ quest
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
-    if (!question.title || !question.prize || !question.tags || !question.description) return
+    if (!question.title || !questionData?.id || !question.tags || !question.description) return
 
     await toast.promise(
       new Promise<void>((resolve, reject) => {
-        createQuestion(question)
+        updateQuestion(questionData?.id, question)
           .then((tx) => {
             closeModal()
             resolve(tx)
@@ -53,7 +52,7 @@ const UpdateQuestion: React.FC<{ questionData: QuestionProp | null }> = ({ quest
       }),
       {
         pending: 'Approve transaction...',
-        success: 'Question created successfully 👌',
+        success: 'Question updated successfully 👌',
         error: 'Encountered error 🤯',
       }
     )
