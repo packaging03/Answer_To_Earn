@@ -100,6 +100,23 @@ const createQuestion = async (data: QuestionParams) => {
     return Promise.reject(error)
   }
 }
+const updateQuestion = async (id: number, data: QuestionParams) => {}
+
+const deleteQuestion = async (id: number) => {}
+
+const createAnswer = async (id: number, answer: string) => {}
+
+const payWinner = async (qid: number, id: number) => {}
+
+const getAnswers = async (id: number): Promise<AnswerProp[]> => {
+  const contract = await getEthereumContract()
+  const answers = await contract.getAnswers(id)
+  return structureAnswers(answers) || []
+}
+
+const loadData = async () => {
+  await getQuestions()
+}
 
 const reportError = (error: any) => {
   console.error(error)
@@ -122,5 +139,18 @@ const structureQuestions = (questions: any[]): QuestionProp[] =>
       prize: Number(fromWei(question.prize)),
     }))
     .sort((a, b) => b.created - a.created)
+
+const structureAnswers = (answers: any[]): AnswerProp[] =>
+  answers
+    .map((answer) => ({
+      id: Number(answer.id),
+      qid: Number(answer.qid),
+      comment: answer.comment,
+      owner: answer.owner.toLowerCase(),
+      deleted: answer.deleted,
+      created: Number(answer.created),
+      updated: Number(answer.updated),
+    }))
+    .sort((a, b) => b.updated - a.updated)
 
 export { connectWallet, checkWallet, getQuestions, getQuestion, createQuestion }
