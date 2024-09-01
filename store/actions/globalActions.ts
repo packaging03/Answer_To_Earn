@@ -1,4 +1,4 @@
-import { GlobalState, QuestionProp } from '@/utils/interfaces'
+import { AnswerProp, GlobalState, QuestionProp } from '@/utils/interfaces'
 import { PayloadAction } from '@reduxjs/toolkit'
 
 export const globalActions = {
@@ -19,5 +19,11 @@ export const globalActions = {
   },
   setDeleteQuestionModal: (state: GlobalState, action: PayloadAction<string>) => {
     state.deleteQuestionModal = action.payload
+  },
+  setAnswerModal: (state: GlobalState, action: PayloadAction<string>) => {
+    state.addAnswerModal = action.payload
+  },
+  setAnswers: (state: GlobalState, action: PayloadAction<AnswerProp[]>) => {
+    state.answers = action.payload
   },
 }

@@ -25,7 +25,7 @@ export default function Question({
   answers: AnswerProp[]
 }) {
   const dispatch = useDispatch()
-  const { setQuestion } = globalActions
+  const { setQuestion, setAnswerModal } = globalActions
   const { question } = useSelector((states: RootState) => states.globalStates)
 
   useEffect(() => {
@@ -60,6 +60,7 @@ export default function Question({
           <button
             className="text-sm bg-blue-600 rounded-full w-[150px] h-[48px] text-white
             right-2 sm:right-10 hover:bg-blue-700  transition-colors duration-300"
+            onClick={() => dispatch(setAnswerModal('scale-100'))}
           >
             Add Answer
           </button>
@@ -81,7 +82,7 @@ export default function Question({
           )}
         </div>
       </main>
-      <AddComment />
+      <AddComment questionData={question} />
       <DeleteQuestion questionData={question} />
       <UpdateQuestion questionData={question} />
     </div>

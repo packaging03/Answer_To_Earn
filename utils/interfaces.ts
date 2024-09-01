@@ -40,6 +40,8 @@ export interface GlobalState {
   addQuestionModal: string
   updateQuestionModal: string
   deleteQuestionModal: string
+  addAnswerModal: string
+  answers: AnswerProp[]
 }
 
 export interface RootState {
