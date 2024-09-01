@@ -25,18 +25,20 @@ export default function Question({
 }) {
   const dispatch = useDispatch()
   const { setQuestion, setAnswers, setAnswerModal } = globalActions
-  const { question, answers, wallet } = useSelector((states: RootState) => states.globalStates)
+  const { question, answers, wallet, owner } = useSelector(
+    (states: RootState) => states.globalStates
+  )
 
   useEffect(() => {
     dispatch(setQuestion(questionData))
     dispatch(setAnswers(answersData))
 
-    if (wallet) {
+    if (owner === wallet || wallet === questionData.owner) {
       getAnswers(questionData.id).then((answersX) => {
         answersX.length > 0 && dispatch(setAnswers(answersX))
       })
     }
-  }, [dispatch, questionData, answersData, setQuestion, setAnswers, wallet])
+  }, [dispatch, questionData, answersData, setQuestion, setAnswers, wallet, owner])
 
   return (
     <div>
