@@ -5,7 +5,7 @@ import address from '@/artifacts/contractAddress.json'
 import abi from '@/artifacts/contracts/AnswerToEarn.sol/AnswerToEarn.json'
 import { AnswerProp, QuestionParams, QuestionProp } from '@/utils/interfaces'
 
-const { setWallet, setQuestions, setQuestion, setAnswers } = globalActions
+const { setWallet, setQuestions, setQuestion, setAnswers, setOwner } = globalActions
 const ContractAddress = address.address
 const ContractAbi = abi.abi
 let ethereum: any
@@ -57,6 +57,7 @@ const checkWallet = async () => {
 
     if (accounts?.length) {
       store.dispatch(setWallet(accounts[0]))
+      await getOwner()
     } else {
       store.dispatch(setWallet(''))
       reportError('Please connect wallet, no accounts found.')
@@ -196,6 +197,12 @@ const getAnswers = async (id: number): Promise<AnswerProp[]> => {
   const contract = await getEthereumContract()
   const answers = await contract.getAnswers(id)
   return structureAnswers(answers) || []
+}
+
+const getOwner = async () => {
+  const contract = await getEthereumContract()
+  const owner = await contract.getOwner
+  store.dispatch(setOwner(owner.toLowerCase()))
 }
 
 const reportError = (error: any) => {
