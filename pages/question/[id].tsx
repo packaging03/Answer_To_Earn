@@ -63,7 +63,7 @@ export default function Question({
 
           <hr className="bottom border-[#212D4A] w-full my-7" />
 
-          {wallet && (
+          {wallet && !question?.paidout && (
             <button
               className="text-sm bg-blue-600 rounded-full w-[150px] h-[48px] text-white
             right-2 sm:right-10 hover:bg-blue-700  transition-colors duration-300"
