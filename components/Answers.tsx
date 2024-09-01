@@ -1,3 +1,4 @@
+import { payWinner } from '@/services/blockChain'
 import { truncate } from '@/utils/helper'
 import { AnswerProp, QuestionProp, RootState } from '@/utils/interfaces'
 import React from 'react'
@@ -5,12 +6,28 @@ import { FaEthereum } from 'react-icons/fa'
 import Identicon from 'react-identicons'
 import Moment from 'react-moment'
 import { useSelector } from 'react-redux'
+import { toast } from 'react-toastify'
 
 const Answers: React.FC<{ answers: AnswerProp[]; questionData: QuestionProp | null }> = ({
   answers,
   questionData,
 }) => {
   const { wallet } = useSelector((states: RootState) => states.globalStates)
+
+  const handlePayment = async (answer: AnswerProp) => {
+    await toast.promise(
+      new Promise<void>((resolve, reject) => {
+        payWinner(answer.qid, answer.id)
+          .then((tx) => resolve(tx))
+          .catch((error) => reject(error))
+      }),
+      {
+        pending: 'Approve transaction...',
+        success: 'Paying winner successfully 👌',
+        error: 'Encountered error 🤯',
+      }
+    )
+  }
 
   return (
     <div className="pb-10">
@@ -31,14 +48,15 @@ const Answers: React.FC<{ answers: AnswerProp[]; questionData: QuestionProp | nu
                 <div className="flex items-center space-x-3 flex-wrap">
                   <div
                     className="flex space-x-1 border border-[#FA8383] h-[32px] w-[90px]
-                justify-center items-center rounded-full text-[#FA8383] cursor-pointer"
+                    justify-center items-center rounded-full text-[#FA8383] cursor-pointer"
+                    onClick={() => handlePayment(answer)}
                   >
                     <FaEthereum className="w-[10px] h-[15px]" />
                     <p>Pay Now</p>
                   </div>
                 </div>
               )}
-              
+
               {questionData?.winner === answer.owner && questionData.paidout && (
                 <div className="flex items-center space-x-3 flex-wrap">
                   <div
