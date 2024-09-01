@@ -15,6 +15,7 @@ import { GetServerSidePropsContext } from 'next'
 import { globalActions } from '@/store/globalSlices'
 import { useDispatch, useSelector } from 'react-redux'
 import UpdateQuestion from '@/components/UpdateQuestion'
+import DeleteQuestion from '@/components/DeleteQuestion'
 
 export default function Question({
   questionData,
@@ -81,7 +82,8 @@ export default function Question({
         </div>
       </main>
       <AddComment />
-      <UpdateQuestion questionData={question}/>
+      <DeleteQuestion questionData={question} />
+      <UpdateQuestion questionData={question} />
     </div>
   )
 }

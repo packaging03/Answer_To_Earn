@@ -123,26 +123,26 @@ const updateQuestion = async (id: number, data: QuestionParams) => {
   }
 }
 
-// const deleteQuestion = async (id: number) => {
-//   if (!ethereum) {
-//     reportError('Please install Metamask')
-//     return Promise.reject(new Error('Metamask not installed'))
-//   }
+const deleteQuestion = async (id: number) => {
+  if (!ethereum) {
+    reportError('Please install Metamask')
+    return Promise.reject(new Error('Metamask not installed'))
+  }
 
-//   try {
-//     const contract = await getEthereumContract()
-//     const tx = await contract.deleteQuestion(id)
+  try {
+    const contract = await getEthereumContract()
+    const tx = await contract.deleteQuestion(id)
 
-//     await tx.wait()
-//     const question = await getQuestion(id)
+    await tx.wait()
+    const question = await getQuestion(id)
 
-//     store.dispatch(setQuestion(question))
-//     return Promise.resolve(tx)
-//   } catch (error) {
-//     reportError(error)
-//     return Promise.reject(error)
-//   }
-// }
+    store.dispatch(setQuestion(question))
+    return Promise.resolve(tx)
+  } catch (error) {
+    reportError(error)
+    return Promise.reject(error)
+  }
+}
 
 // const createAnswer = async (id: number, answer: string) => {
 //   if (!ethereum) {
@@ -220,4 +220,12 @@ const structureQuestions = (questions: any[]): QuestionProp[] =>
     }))
     .sort((a, b) => b.created - a.created)
 
-export { connectWallet, checkWallet, getQuestions, getQuestion, createQuestion, updateQuestion }
+export {
+  connectWallet,
+  checkWallet,
+  getQuestions,
+  getQuestion,
+  createQuestion,
+  updateQuestion,
+  deleteQuestion,
+}
