@@ -52,6 +52,7 @@ export function generateAnswers(count: number): AnswerProp[] {
       owner: '0x1234567890123456789012345678901234567890',
       deleted: false,
       created: Date.now(),
+      updated: Date.now(),
     }
 
     answers.push(answer)

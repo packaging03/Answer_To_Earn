@@ -15,6 +15,7 @@ export interface AnswerProp {
   comment: string
   owner: string
   deleted: boolean
+  updated: number
   created: number
 }
 
