@@ -5,7 +5,7 @@ import address from '@/artifacts/contractAddress.json'
 import abi from '@/artifacts/contracts/AnswerToEarn.sol/AnswerToEarn.json'
 import { AnswerProp, QuestionParams, QuestionProp } from '@/utils/interfaces'
 
-const { setWallet, setQuestions, setQuestion } = globalActions
+const { setWallet, setQuestions, setQuestion, setAnswers } = globalActions
 const ContractAddress = address.address
 const ContractAbi = abi.abi
 let ethereum: any
@@ -144,59 +144,59 @@ const deleteQuestion = async (id: number) => {
   }
 }
 
-// const createAnswer = async (id: number, answer: string) => {
-//   if (!ethereum) {
-//     reportError('Please install Metamask')
-//     return Promise.reject(new Error('Metamask not installed'))
-//   }
+const createAnswer = async (id: number, answer: string) => {
+  if (!ethereum) {
+    reportError('Please install Metamask')
+    return Promise.reject(new Error('Metamask not installed'))
+  }
 
-//   try {
-//     const contract = await getEthereumContract()
-//     const tx = await contract.addAnswer(id, answer)
+  try {
+    const contract = await getEthereumContract()
+    const tx = await contract.addAnswer(id, answer)
 
-//     await tx.wait()
-//     const question = await getQuestion(id)
-//     const answers = await getAnswers(id)
+    await tx.wait()
+    const question = await getQuestion(id)
+    const answers = await getAnswers(id)
 
-//     store.dispatch(setQuestion(question))
-//     store.dispatch(setAnswers(answers))
+    store.dispatch(setQuestion(question))
+    store.dispatch(setAnswers(answers))
 
-//     return Promise.resolve(tx)
-//   } catch (error) {
-//     reportError(error)
-//     return Promise.reject(error)
-//   }
-// }
+    return Promise.resolve(tx)
+  } catch (error) {
+    reportError(error)
+    return Promise.reject(error)
+  }
+}
 
-// const payWinner = async (qid: number, id: number) => {
-//   if (!ethereum) {
-//     reportError('Please install Metamask')
-//     return Promise.reject(new Error('Metamask not installed'))
-//   }
+const payWinner = async (qid: number, id: number) => {
+  if (!ethereum) {
+    reportError('Please install Metamask')
+    return Promise.reject(new Error('Metamask not installed'))
+  }
 
-//   try {
-//     const contract = await getEthereumContract()
-//     const tx = await contract.payWinner(qid, id)
+  try {
+    const contract = await getEthereumContract()
+    const tx = await contract.payWinner(qid, id)
 
-//     await tx.wait()
-//     const question = await getQuestion(id)
-//     const answers = await getAnswers(id)
+    await tx.wait()
+    const question = await getQuestion(id)
+    const answers = await getAnswers(id)
 
-//     store.dispatch(setQuestion(question))
-//     store.dispatch(setAnswers(answers))
+    store.dispatch(setQuestion(question))
+    store.dispatch(setAnswers(answers))
 
-//     return Promise.resolve(tx)
-//   } catch (error) {
-//     reportError(error)
-//     return Promise.reject(error)
-//   }
-// }
+    return Promise.resolve(tx)
+  } catch (error) {
+    reportError(error)
+    return Promise.reject(error)
+  }
+}
 
-// const getAnswers = async (id: number): Promise<AnswerProp[]> => {
-//   const contract = await getEthereumContract()
-//   const answers = await contract.getAnswers(id)
-//   return structureAnswers(answers) || []
-// }
+const getAnswers = async (id: number): Promise<AnswerProp[]> => {
+  const contract = await getEthereumContract()
+  const answers = await contract.getAnswers(id)
+  return structureAnswers(answers) || []
+}
 
 const reportError = (error: any) => {
   console.error(error)
@@ -220,6 +220,19 @@ const structureQuestions = (questions: any[]): QuestionProp[] =>
     }))
     .sort((a, b) => b.created - a.created)
 
+const structureAnswers = (answers: any[]): AnswerProp[] =>
+  answers
+    .map((answer) => ({
+      id: Number(answer.id),
+      qid: Number(answer.qid),
+      comment: answer.comment,
+      owner: answer.owner.toLowerCase(),
+      deleted: answer.deleted,
+      created: Number(answer.created),
+      updated: Number(answer.updated),
+    }))
+    .sort((a, b) => b.updated - a.updated)
+
 export {
   connectWallet,
   checkWallet,
@@ -228,4 +241,7 @@ export {
   createQuestion,
   updateQuestion,
   deleteQuestion,
+  createAnswer,
+  getAnswers,
+  payWinner,
 }
