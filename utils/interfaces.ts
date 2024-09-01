@@ -36,6 +36,7 @@ export interface QuestionProp {
 
 export interface GlobalState {
   wallet: string | null
+  owner: string | null
   questions: QuestionProp[]
   question: QuestionProp | null
   addQuestionModal: string

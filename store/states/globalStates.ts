@@ -2,6 +2,7 @@ import { GlobalState } from '@/utils/interfaces'
 
 export const globalStates: GlobalState = {
   wallet: '',
+  owner: '',
   questions: [],
   question: null,
   addQuestionModal: 'scale-0',
